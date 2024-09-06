@@ -154,24 +154,24 @@ class WebsiteMenuBar extends StatelessWidget {
                 onPressed: () =>
                     openUrl("https://flutter.dev/docs/get-started/install"),
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(primary),
-                    overlayColor: MaterialStateProperty.resolveWith<Color>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered)) {
+                    backgroundColor: WidgetStateProperty.all<Color>(primary),
+                    overlayColor: WidgetStateProperty.resolveWith<Color>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.hovered)) {
                           return buttonPrimaryDark;
                         }
-                        if (states.contains(MaterialState.focused) ||
-                            states.contains(MaterialState.pressed)) {
+                        if (states.contains(WidgetState.focused) ||
+                            states.contains(WidgetState.pressed)) {
                           return buttonPrimaryDarkPressed;
                         }
                         return primary;
                       },
                     ),
                     // Shape sets the border radius from default 3 to 0.
-                    shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.focused) ||
-                            states.contains(MaterialState.pressed)) {
+                    shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.focused) ||
+                            states.contains(WidgetState.pressed)) {
                           return const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(0)));
@@ -180,14 +180,14 @@ class WebsiteMenuBar extends StatelessWidget {
                             borderRadius: BorderRadius.all(Radius.circular(0)));
                       },
                     ),
-                    padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                         const EdgeInsets.symmetric(
                             vertical: 22, horizontal: 28)),
                     // Side adds pressed highlight outline.
-                    side: MaterialStateProperty.resolveWith<BorderSide>(
-                        (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.focused) ||
-                          states.contains(MaterialState.pressed)) {
+                    side: WidgetStateProperty.resolveWith<BorderSide>(
+                        (Set<WidgetState> states) {
+                      if (states.contains(WidgetState.focused) ||
+                          states.contains(WidgetState.pressed)) {
                         return const BorderSide(
                             width: 3, color: buttonPrimaryPressedOutline);
                       }
@@ -300,26 +300,26 @@ class GetStarted extends StatelessWidget {
                             "https://flutter.dev/docs/get-started/install"),
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all<Color>(primary),
+                                WidgetStateProperty.all<Color>(primary),
                             overlayColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.hovered)) {
+                                WidgetStateProperty.resolveWith<Color>(
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.hovered)) {
                                   return buttonPrimaryDark;
                                 }
-                                if (states.contains(MaterialState.focused) ||
-                                    states.contains(MaterialState.pressed)) {
+                                if (states.contains(WidgetState.focused) ||
+                                    states.contains(WidgetState.pressed)) {
                                   return buttonPrimaryDarkPressed;
                                 }
                                 return primary;
                               },
                             ),
                             // Shape sets the border radius from default 3 to 0.
-                            shape: MaterialStateProperty.resolveWith<
+                            shape: WidgetStateProperty.resolveWith<
                                 OutlinedBorder>(
-                              (Set<MaterialState> states) {
-                                if (states.contains(MaterialState.focused) ||
-                                    states.contains(MaterialState.pressed)) {
+                              (Set<WidgetState> states) {
+                                if (states.contains(WidgetState.focused) ||
+                                    states.contains(WidgetState.pressed)) {
                                   return const RoundedRectangleBorder(
                                       borderRadius:
                                           BorderRadius.all(Radius.circular(0)));
@@ -330,14 +330,14 @@ class GetStarted extends StatelessWidget {
                               },
                             ),
                             padding:
-                                MaterialStateProperty.all<EdgeInsetsGeometry>(
+                                WidgetStateProperty.all<EdgeInsetsGeometry>(
                                     const EdgeInsets.symmetric(
                                         vertical: 32, horizontal: 84)),
                             // Side adds pressed highlight outline.
-                            side: MaterialStateProperty.resolveWith<BorderSide>(
-                                (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.focused) ||
-                                  states.contains(MaterialState.pressed)) {
+                            side: WidgetStateProperty.resolveWith<BorderSide>(
+                                (Set<WidgetState> states) {
+                              if (states.contains(WidgetState.focused) ||
+                                  states.contains(WidgetState.pressed)) {
                                 return const BorderSide(
                                     width: 3,
                                     color: buttonPrimaryPressedOutline);
@@ -1375,24 +1375,24 @@ class InstallFlutter extends StatelessWidget {
                       openUrl("https://flutter.dev/docs/get-started/install"),
                   style: ButtonStyle(
                       backgroundColor:
-                          MaterialStateProperty.all<Color>(primary),
-                      overlayColor: MaterialStateProperty.resolveWith<Color>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.hovered)) {
+                          WidgetStateProperty.all<Color>(primary),
+                      overlayColor: WidgetStateProperty.resolveWith<Color>(
+                        (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.hovered)) {
                             return buttonPrimaryDark;
                           }
-                          if (states.contains(MaterialState.focused) ||
-                              states.contains(MaterialState.pressed)) {
+                          if (states.contains(WidgetState.focused) ||
+                              states.contains(WidgetState.pressed)) {
                             return buttonPrimaryDarkPressed;
                           }
                           return primary;
                         },
                       ),
                       // Shape sets the border radius from default 3 to 0.
-                      shape: MaterialStateProperty.resolveWith<OutlinedBorder>(
-                        (Set<MaterialState> states) {
-                          if (states.contains(MaterialState.focused) ||
-                              states.contains(MaterialState.pressed)) {
+                      shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
+                        (Set<WidgetState> states) {
+                          if (states.contains(WidgetState.focused) ||
+                              states.contains(WidgetState.pressed)) {
                             return const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(0)));
@@ -1402,14 +1402,14 @@ class InstallFlutter extends StatelessWidget {
                                   BorderRadius.all(Radius.circular(0)));
                         },
                       ),
-                      padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                      padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
                           const EdgeInsets.symmetric(
                               vertical: 32, horizontal: 90)),
                       // Side adds pressed highlight outline.
-                      side: MaterialStateProperty.resolveWith<BorderSide>(
-                          (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.focused) ||
-                            states.contains(MaterialState.pressed)) {
+                      side: WidgetStateProperty.resolveWith<BorderSide>(
+                          (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.focused) ||
+                            states.contains(WidgetState.pressed)) {
                           return const BorderSide(
                               width: 3, color: buttonPrimaryPressedOutline);
                         }
