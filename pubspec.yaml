@@ -9,22 +9,23 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.6
+  cupertino_icons: ^1.0.8
   animations: ^2.0.11
-  url_launcher: ^6.2.5
-  video_player: ^2.8.2
-  webview_flutter: ^4.7.0
-  webview_flutter_web: ^0.2.2+4
+  url_launcher: ^6.3.0
+  video_player: ^2.9.1
+  webview_flutter: ^4.9.0
+  webview_flutter_web: ^0.2.3+2
   universal_html: ^2.2.4
-  google_fonts: ^6.1.0
+  google_fonts: ^6.2.1
   universal_io: ^2.2.2
-  responsive_framework:
-    path: responsive_framework/
+  responsive_framework: ^1.5.1
+#  responsive_framework:
+#    path: responsive_framework/
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
+  flutter_lints: ^4.0.0
 
 flutter:
   uses-material-design: true
