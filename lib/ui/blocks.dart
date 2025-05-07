@@ -398,14 +398,14 @@ class _GetStartedState extends State<GetStarted>
   }
 }
 
-class Features extends StatefulWidget {
-  const Features({super.key});
+class KnowYourMentor extends StatefulWidget {
+  const KnowYourMentor({super.key});
 
   @override
-  State<Features> createState() => _FeaturesState();
+  State<KnowYourMentor> createState() => _KnowYourMentorState();
 }
 
-class _FeaturesState extends State<Features>
+class _KnowYourMentorState extends State<KnowYourMentor>
     with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<Offset> _slide;
@@ -465,9 +465,8 @@ class _FeaturesState extends State<Features>
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
                           border: Border.all(
-                            color: Colors
-                                .deepPurple, // border color like the image
-                            width: 2.0, // thicker border
+                            color: Colors.deepPurple,
+                            width: 2.0,
                           ),
                           boxShadow: [
                             BoxShadow(
@@ -482,10 +481,65 @@ class _FeaturesState extends State<Features>
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const CircleAvatar(
-                              radius: 50,
-                              backgroundImage:
-                                  AssetImage('assets/profile_placeholder.png'),
+                            Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: Colors.blueAccent.withOpacity(0.5),
+                                  width: 3.0,
+                                ),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.2),
+                                    blurRadius: 10,
+                                    spreadRadius: 2,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  const CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage:
+                                        AssetImage('assets/images/sir.jpg'),
+                                  ),
+                                  Container(
+                                    width: 100,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.transparent,
+                                          Colors.black.withOpacity(0.4),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  // const Positioned(
+                                  //   bottom: 8,
+                                  //   child: Text(
+                                  //     "Professor",
+                                  //     style: TextStyle(
+                                  //       color: Colors.white,
+                                  //       fontSize: 14,
+                                  //       fontWeight: FontWeight.bold,
+                                  //       shadows: [
+                                  //         Shadow(
+                                  //           blurRadius: 5,
+                                  //           color: Colors.black,
+                                  //           offset: Offset(1, 1),
+                                  //         ),
+                                  //       ],
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              ),
                             ),
                             const SizedBox(height: 16),
                             const Text(
@@ -576,25 +630,28 @@ class _InfoRowState extends State<InfoRow> {
           children: [
             Icon(Icons.info_outline, color: Colors.deepPurple),
             const SizedBox(width: 8),
-            RichText(
-              text: TextSpan(
-                style:
-                    DefaultTextStyle.of(context).style.copyWith(fontSize: 16),
-                children: [
-                  TextSpan(
-                    text: '${widget.title}: ',
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
+            // Use Expanded or Flexible to wrap long text
+            Expanded(
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: '${widget.title}: ',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepPurple,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                  TextSpan(
-                    text: widget.value,
-                    style: const TextStyle(
-                      color: Colors.black87,
+                    TextSpan(
+                      text: widget.value,
+                      style: const TextStyle(
+                        color: Colors.black87,
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],
@@ -635,148 +692,144 @@ class _InfoRowState extends State<InfoRow> {
 //   }
 // }
 
+// Widget _buildCertificate(String imagePath) {
+//   double screenWidth = MediaQuery.of(context).size.width;
+//   double certificateWidth = screenWidth > 1000 ? 200 : screenWidth * 0.2;
+//   double certificateHeight = certificateWidth * 1.5;
+//   return Container(
+//     width: certificateWidth,
+//     height: certificateHeight,
+//     margin: const EdgeInsets.symmetric(horizontal: 5),
+//     decoration: BoxDecoration(
+//       color: Colors.grey.shade800,
+//       borderRadius: BorderRadius.circular(30),
+//       boxShadow: [
+//         BoxShadow(
+//           color: Colors.black.withOpacity(0.4),
+//           blurRadius: 10,
+//           spreadRadius: 3,
+//           offset: const Offset(4, 6),
+//         ),
+//       ],
+//     ),
+//     child: Padding(
+//       padding: const EdgeInsets.all(6.0),
+//       child: Stack(
+//         alignment: Alignment.topCenter,
+//         children: [
+//           Container(
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.circular(24),
+//             ),
+//             child: ClipRRect(
+//               borderRadius: BorderRadius.circular(24),
+//               child: Image.asset(
+//                 imagePath,
+//                 fit: BoxFit.cover,
+//                 width: double.infinity,
+//                 height: double.infinity,
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             top: -8,
+//             child: Container(
+//               width: 40,
+//               height: 6,
+//               decoration: BoxDecoration(
+//                 color: Colors.grey.shade800,
+//                 borderRadius: BorderRadius.circular(3),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
+// Widget _buildCertificate1(String imagePath, String cert) {
+//   double screenWidth = MediaQuery.of(context).size.width;
+//   double certificateWidth = screenWidth > 1000 ? 200 : screenWidth * 0.3;
+//   double certificateHeight = certificateWidth * 1.5;
+//   return Container(
+//     width: certificateWidth,
+//     height: certificateHeight,
+//     margin: const EdgeInsets.symmetric(horizontal: 5),
+//     decoration: BoxDecoration(
+//       color: Colors.grey.shade800,
+//       borderRadius: BorderRadius.circular(30),
+//       boxShadow: [
+//         BoxShadow(
+//           color: Colors.black.withOpacity(0.4),
+//           blurRadius: 10,
+//           spreadRadius: 3,
+//           offset: const Offset(4, 6),
+//         ),
+//       ],
+//     ),
+//     child: Padding(
+//       padding: const EdgeInsets.all(6.0),
+//       child: Stack(
+//         alignment: Alignment.topCenter,
+//         children: [
+//           Container(
+//             decoration: BoxDecoration(
+//               color: Colors.white,
+//               borderRadius: BorderRadius.circular(24),
+//             ),
+//             child: ClipRRect(
+//               borderRadius: BorderRadius.circular(24),
+//               child: Image.asset(
+//                 imagePath,
+//                 fit: BoxFit.cover,
+//                 width: double.infinity,
+//                 height: double.infinity,
+//               ),
+//             ),
+//           ),
+//           Positioned(
+//             top: 8,
+//             child: Container(
+//               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+//               decoration: BoxDecoration(
+//                 color: Colors.black.withOpacity(0.7),
+//                 borderRadius: BorderRadius.circular(8),
+//               ),
+//               child: Text(
+//                 cert,
+//                 style: const TextStyle(
+//                   color: Colors.white,
+//                   fontSize: 12,
+//                   fontWeight: FontWeight.bold,
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     ),
+//   );
+// }
 
-
-  // Widget _buildCertificate(String imagePath) {
-  //   double screenWidth = MediaQuery.of(context).size.width;
-  //   double certificateWidth = screenWidth > 1000 ? 200 : screenWidth * 0.2;
-  //   double certificateHeight = certificateWidth * 1.5;
-  //   return Container(
-  //     width: certificateWidth,
-  //     height: certificateHeight,
-  //     margin: const EdgeInsets.symmetric(horizontal: 5),
-  //     decoration: BoxDecoration(
-  //       color: Colors.grey.shade800,
-  //       borderRadius: BorderRadius.circular(30),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.4),
-  //           blurRadius: 10,
-  //           spreadRadius: 3,
-  //           offset: const Offset(4, 6),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(6.0),
-  //       child: Stack(
-  //         alignment: Alignment.topCenter,
-  //         children: [
-  //           Container(
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.circular(24),
-  //             ),
-  //             child: ClipRRect(
-  //               borderRadius: BorderRadius.circular(24),
-  //               child: Image.asset(
-  //                 imagePath,
-  //                 fit: BoxFit.cover,
-  //                 width: double.infinity,
-  //                 height: double.infinity,
-  //               ),
-  //             ),
-  //           ),
-  //           Positioned(
-  //             top: -8,
-  //             child: Container(
-  //               width: 40,
-  //               height: 6,
-  //               decoration: BoxDecoration(
-  //                 color: Colors.grey.shade800,
-  //                 borderRadius: BorderRadius.circular(3),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildCertificate1(String imagePath, String cert) {
-  //   double screenWidth = MediaQuery.of(context).size.width;
-  //   double certificateWidth = screenWidth > 1000 ? 200 : screenWidth * 0.3;
-  //   double certificateHeight = certificateWidth * 1.5;
-  //   return Container(
-  //     width: certificateWidth,
-  //     height: certificateHeight,
-  //     margin: const EdgeInsets.symmetric(horizontal: 5),
-  //     decoration: BoxDecoration(
-  //       color: Colors.grey.shade800,
-  //       borderRadius: BorderRadius.circular(30),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.4),
-  //           blurRadius: 10,
-  //           spreadRadius: 3,
-  //           offset: const Offset(4, 6),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Padding(
-  //       padding: const EdgeInsets.all(6.0),
-  //       child: Stack(
-  //         alignment: Alignment.topCenter,
-  //         children: [
-  //           Container(
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.circular(24),
-  //             ),
-  //             child: ClipRRect(
-  //               borderRadius: BorderRadius.circular(24),
-  //               child: Image.asset(
-  //                 imagePath,
-  //                 fit: BoxFit.cover,
-  //                 width: double.infinity,
-  //                 height: double.infinity,
-  //               ),
-  //             ),
-  //           ),
-  //           Positioned(
-  //             top: 8,
-  //             child: Container(
-  //               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-  //               decoration: BoxDecoration(
-  //                 color: Colors.black.withOpacity(0.7),
-  //                 borderRadius: BorderRadius.circular(8),
-  //               ),
-  //               child: Text(
-  //                 cert,
-  //                 style: const TextStyle(
-  //                   color: Colors.white,
-  //                   fontSize: 12,
-  //                   fontWeight: FontWeight.bold,
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  Widget buildMaterialIconCircle(String assetPath, double size) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        shape: BoxShape.circle,
+Widget buildMaterialIconCircle(String assetPath, double size) {
+  return Container(
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      color: Colors.grey[200],
+      shape: BoxShape.circle,
+    ),
+    child: Center(
+      child: Image.asset(
+        assetPath,
+        width: size * 0.6,
+        height: size * 0.6,
       ),
-      child: Center(
-        child: Image.asset(
-          assetPath,
-          width: size * 0.6,
-          height: size * 0.6,
-        ),
-      ),
-    );
-  }
-
+    ),
+  );
+}
 
 class BeautifulUI extends StatefulWidget {
   const BeautifulUI({super.key});
@@ -1268,8 +1321,6 @@ class FlutterNewsCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(4),
           border: Border.all(color: border)),
       child: Column(
-
-
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
@@ -1542,7 +1593,7 @@ class Footer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.asset(
-                  "assets/images/logo.png", 
+                  "assets/images/logo.png",
                   height: 60,
                   fit: BoxFit.contain,
                 ),
@@ -1555,7 +1606,6 @@ class Footer extends StatelessWidget {
               ],
             ),
           ),
-
           ResponsiveRowColumnItem(
             rowFlex: 1,
             child: Column(
@@ -1568,7 +1618,6 @@ class Footer extends StatelessWidget {
               ],
             ),
           ),
-
           ResponsiveRowColumnItem(
             rowFlex: 1,
             child: Column(
@@ -1606,8 +1655,7 @@ class Footer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: GestureDetector(
-        onTap: () {
-        },
+        onTap: () {},
         child: Text(
           text,
           style: bodyTextStyle.copyWith(
@@ -1653,4 +1701,3 @@ class Footer extends StatelessWidget {
     );
   }
 }
-

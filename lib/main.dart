@@ -54,19 +54,21 @@ class MyApp extends StatelessWidget {
               },
             ),
             Positioned(
-              right: 0, 
-              top: MediaQuery.of(context).size.height / 2 - 60, 
+              right: 0,
+              top: MediaQuery.of(context).size.height / 2 - 60,
               child: _WhatsAppHoverButton(),
             ),
             Positioned(
-              right: 0, 
-              top: MediaQuery.of(context).size.height / 2 + 20, 
+              right: 0,
+              top: MediaQuery.of(context).size.height / 2 + 20,
               child: _TelegramHoverButton(),
             ),
             Positioned(
-              left: 0, 
-              top: MediaQuery.of(context).size.height/4  - 200, 
-              child: BlinkingRegisterButton(onTap: (){},),
+              left: 0,
+              top: MediaQuery.of(context).size.height / 4 - 200,
+              child: BlinkingRegisterButton(
+                onTap: () {},
+              ),
             ),
           ],
         ),
@@ -90,7 +92,7 @@ List<Widget> blocks = [
     ),
   ),
   const BlockWrapper(GetStarted()),
-  const BlockWrapper(Features()),
+  const BlockWrapper(KnowYourMentor()),
   const BlockWrapper(ResultSlider()),
   const BlockWrapper(ContactUsPage()),
   // ContactUsPage(),
@@ -119,7 +121,7 @@ class _WhatsAppHoverButtonState extends State<_WhatsAppHoverButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse("https://wa.me/1234567890"));
+        launchUrl(Uri.parse("https://wa.me/9876543210"));
       },
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovering = true),
@@ -128,19 +130,27 @@ class _WhatsAppHoverButtonState extends State<_WhatsAppHoverButton> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           decoration: BoxDecoration(
-            color: Colors.green,
+            color: const Color.fromARGB(255, 199, 220, 199),
             borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.search, color: Colors.white),
+              Image.asset(
+                '/assets/images/whatsapp.png',
+                height: 40,
+                width: 40,
+              ),
+
               if (_isHovering)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
                     'WhatsApp',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
             ],
@@ -163,7 +173,7 @@ class _TelegramHoverButtonState extends State<_TelegramHoverButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        launchUrl(Uri.parse("https://t.me/your_telegram_handle"));
+        launchUrl(Uri.parse("https://youtube/"));
       },
       child: MouseRegion(
         onEnter: (_) => setState(() => _isHovering = true),
@@ -172,19 +182,26 @@ class _TelegramHoverButtonState extends State<_TelegramHoverButton> {
           duration: const Duration(milliseconds: 200),
           padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
           decoration: BoxDecoration(
-            color: Colors.blue, 
+            color: const Color.fromARGB(255, 215, 224, 231),
             borderRadius: BorderRadius.horizontal(left: Radius.circular(20)),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(Icons.message, color: Colors.white),
+                Image.asset(
+                '/assets/images/youtube.png',
+                height: 40,
+                width: 40,
+              ),
               if (_isHovering)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(
-                    'Telegram',
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    'Youtube',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                 ),
             ],

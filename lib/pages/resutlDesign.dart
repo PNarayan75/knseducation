@@ -1,6 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:photo_view/photo_view.dart';
 
 class ResultSlider extends StatefulWidget {
@@ -10,15 +10,19 @@ class ResultSlider extends StatefulWidget {
   State<ResultSlider> createState() => _ResultSliderState();
 }
 
-class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderStateMixin {
+class _ResultSliderState extends State<ResultSlider>
+    with SingleTickerProviderStateMixin {
   final List<Map<String, dynamic>> allResults = List.generate(20, (index) {
     return {
-      'image': 'assets/images/student${(index % 4) + 1}.jpg', 
+      'image': 'assets/images/sir.jpg',
       'name': 'Student ${index + 1}',
       'rank': index + 1,
       'marks': 90 - (index % 10),
       'subject': ['Math', 'Science', 'English', 'History'][index % 4],
-      'date': 'May ${2023 + (index ~/ 10)}'
+      'date': 'May ${2023 + (index ~/ 10)}',
+      'accuracy': '${85 + (index % 15)}%',
+      'attempted': '${45 - (index % 5)}/50',
+      'timeSpent': '${120 - (index % 20)} mins',
     };
   });
 
@@ -27,7 +31,7 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
   late final Animation<double> _fade;
   late final ScrollController _scrollController;
   Timer? _autoSlideTimer;
-  int _visibleCount = 4; // Default number of results to show
+  int _currentVisibleCount = 1;
 
   @override
   void initState() {
@@ -46,24 +50,43 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
     _startAutoSlide();
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _updateVisibleCount();
+  }
+
+  void _updateVisibleCount() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    setState(() {
+      if (screenWidth > 1200) {
+        _currentVisibleCount = 4;
+      } else if (screenWidth > 900) {
+        _currentVisibleCount = 3;
+      } else if (screenWidth > 600) {
+        _currentVisibleCount = 2;
+      } else {
+        _currentVisibleCount = 1;
+      }
+    });
+  }
+
   void _startAutoSlide() {
-    _autoSlideTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+    _autoSlideTimer = Timer.periodic(const Duration(seconds: 5), (timer) {
       if (_scrollController.hasClients) {
         final maxScroll = _scrollController.position.maxScrollExtent;
         final currentScroll = _scrollController.offset;
-        
+
         if (currentScroll >= maxScroll - 100) {
-          // If near the end, scroll back to start
           _scrollController.animateTo(
             0,
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 800),
             curve: Curves.easeInOut,
           );
         } else {
-          // Scroll to next set of results
           _scrollController.animateTo(
             currentScroll + _getScrollAmount(),
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 800),
             curve: Curves.easeInOut,
           );
         }
@@ -73,32 +96,23 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
 
   double _getScrollAmount() {
     final screenWidth = MediaQuery.of(context).size.width;
-    if (screenWidth < 400) {
-      return 180; // Width of one item + padding
-    } else if (screenWidth < 600) {
-      return 400; // Width of two items + padding
-    }
-    return 700; // Width of three items + padding
+    return (screenWidth / _currentVisibleCount) * 0.9;
   }
 
-  void _openFullScreenImage(String imagePath) {
+  void _openFullScreenResult(Map<String, dynamic> result) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => Scaffold(
-          backgroundColor: Colors.black,
           appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            title: Text(result['name']),
           ),
-          body: Center(
-            child: PhotoView(
-              imageProvider: AssetImage(imagePath),
-              minScale: PhotoViewComputedScale.contained,
-              maxScale: PhotoViewComputedScale.covered * 2,
+          body: SingleChildScrollView(
+            padding: const EdgeInsets.all(20),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                maxWidth: 600,
+              ),
+              child: _buildFullResultItem(result),
             ),
           ),
         ),
@@ -116,91 +130,103 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    
-    // Adjust visible count based on screen width
-    if (screenWidth < 400) {
-      _visibleCount = 1;
-    } else if (screenWidth < 600) {
-      _visibleCount = 2;
-    } else {
-      _visibleCount = 5;
-    }
-    
-    final itemWidth = screenWidth / (_visibleCount * 0.9); // Adjust visible count
-    
-    return SlideTransition(
-      position: _slide,
-      child: FadeTransition(
-        opacity: _fade,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4),
-            border: Border.all(color: Colors.grey.shade300),
-          ),
-          margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Exam Results",
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                height: 180, // Fixed height for all result items
-                child: ListView.builder(
-                  controller: _scrollController,
-                  scrollDirection: Axis.horizontal,
-                  itemCount: allResults.length,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      width: itemWidth,
-                      child: GestureDetector(
-                        onTap: () => _openFullScreenImage(allResults[index]['image']),
-                        child: _buildResultItem(allResults[index]),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back),
-                    onPressed: () {
-                      _scrollController.animateTo(
-                        _scrollController.offset - _getScrollAmount(),
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    },
-                  ),
-                  const SizedBox(width: 20),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () {
-                      _scrollController.animateTo(
-                        _scrollController.offset + _getScrollAmount(),
-                        duration: const Duration(milliseconds: 500),
-                        curve: Curves.easeInOut,
-                      );
-                    },
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        // Update visible count when layout changes
+        WidgetsBinding.instance
+            .addPostFrameCallback((_) => _updateVisibleCount());
+
+        return SlideTransition(
+          position: _slide,
+          child: FadeTransition(
+            opacity: _fade,
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    blurRadius: 10,
+                    spreadRadius: 2,
                   ),
                 ],
               ),
-            ],
+              margin: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      "IIT JEE Performance Analysis",
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 380,
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: allResults.length,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          width: MediaQuery.of(context).size.width /
+                              _currentVisibleCount *
+                              0.9,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8),
+                            child: GestureDetector(
+                              onTap: () =>
+                                  _openFullScreenResult(allResults[index]),
+                              child: _buildResultItem(allResults[index]),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.arrow_back_ios, size: 24),
+                          onPressed: () {
+                            _scrollController.animateTo(
+                              _scrollController.offset - _getScrollAmount(),
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          },
+                        ),
+                        const SizedBox(width: 20),
+                        IconButton(
+                          icon: const Icon(Icons.arrow_forward_ios, size: 24),
+                          onPressed: () {
+                            _scrollController.animateTo(
+                              _scrollController.offset + _getScrollAmount(),
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -208,38 +234,604 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: _buildResultContent(result),
+    );
+  }
+
+  Widget _buildFullResultItem(Map<String, dynamic> result) {
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              radius: 30,
-              backgroundImage: AssetImage(result['image']),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              result['name'],
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 12,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            Text(
-              'Rank: ${result['rank']}',
-              style: const TextStyle(fontSize: 11),
-            ),
-            Text(
-              'Marks: ${result['marks']}',
-              style: const TextStyle(fontSize: 11),
-            ),
-          ],
-        ),
+        padding: const EdgeInsets.all(24),
+        child: _buildResultContentfullpage(result),
       ),
     );
+  }
+
+  Widget _buildResultContent(Map<String, dynamic> result,
+      {bool isFullScreen = false}) {
+    String preparationFeedback = _getPreparationFeedback(result['rank']);
+    List<String> suggestions = _getSuggestions(result['rank']);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        backgroundColor: Colors.black,
+                        appBar: AppBar(
+                          backgroundColor: Colors.transparent,
+                          leading: IconButton(
+                            icon: const Icon(Icons.arrow_back,
+                                color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                        body: PhotoView(
+                          imageProvider: AssetImage(result['image']),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _getRankColor(result['rank']),
+                      width: 3,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: isFullScreen ? 48 : 32,
+                    backgroundColor: Colors.grey.shade100,
+                    backgroundImage: AssetImage(result['image']),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+
+              // Name and Rank
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      result['name'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: isFullScreen ? 24 : 18,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/images/rank.svg',
+                              width: 40,
+                              height: 40,
+                           
+                            ),
+                            Text(
+                              'Rank ${result['rank']}',
+                              style: TextStyle(
+                                fontSize: isFullScreen ? 20 : 16,
+                                fontWeight: FontWeight.w600,
+                                color: _getRankColor(result['rank']),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Icon(Icons.score,
+                                size: isFullScreen ? 24 : 20,
+                                color: Colors.teal.shade700),
+                            Text(
+                              '${result['marks']} Marks',
+                              style: TextStyle(
+                                  fontSize: isFullScreen ? 20 : 16,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.teal.shade700),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                    if (isFullScreen) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        'Subject: ${result['subject']} • Date: ${result['date']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Performance Summary',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: isFullScreen ? 18 : 15,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _buildStatItem(
+                      'Accuracy',
+                      result['accuracy'],
+                      Icons.check,
+                      isFullScreen: isFullScreen,
+                    ),
+                    _buildStatItem(
+                      'Attempted',
+                      result['attempted'],
+                      Icons.checklist,
+                      isFullScreen: isFullScreen,
+                    ),
+                    _buildStatItem(
+                      'Time Spent',
+                      result['timeSpent'],
+                      Icons.timer,
+                      isFullScreen: isFullScreen,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: _getFeedbackColor(result['rank']).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline,
+                        size: isFullScreen ? 28 : 20,
+                        color: _getFeedbackColor(result['rank'])),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Preparation Tips',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: _getFeedbackColor(result['rank']),
+                        fontSize: isFullScreen ? 18 : 15,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  preparationFeedback,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: isFullScreen ? 16 : 14,
+                  ),
+                ),
+
+                // if (suggestions.isNotEmpty) ...[
+                //   const SizedBox(height: 12),
+                //   Text(
+                //     'Suggested Actions:',
+                //     style: TextStyle(
+                //       fontWeight: FontWeight.w600,
+                //       fontSize: isFullScreen ? 16 : 13,
+                //     ),
+                //   ),
+                //   const SizedBox(height: 8),
+                //   ...suggestions.map((suggestion) => Padding(
+                //     padding: const EdgeInsets.only(left: 8, bottom: 4),
+                //     child: Row(
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: [
+                //         const Text('• '),
+                //         Expanded(
+                //           child: Text(
+                //             suggestion,
+                //             style: TextStyle(
+                //               fontSize: isFullScreen ? 15 : 13,
+                //               height: 1.4,
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   )).toList(),
+                // ],
+              ],
+            ),
+          ),
+        ),
+        if (isFullScreen) ...[
+          const SizedBox(height: 20),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                // Action for detailed analysis
+              },
+              child: const Text(
+                'View Detailed Analysis',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildResultContentfullpage(Map<String, dynamic> result,
+      {bool isFullScreen = false}) {
+    String preparationFeedback = _getPreparationFeedback(result['rank']);
+    List<String> suggestions = _getSuggestions(result['rank']);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => Scaffold(
+                        backgroundColor: Colors.black,
+                        appBar: AppBar(
+                          backgroundColor: Colors.transparent,
+                          leading: IconButton(
+                            icon: const Icon(Icons.arrow_back,
+                                color: Colors.white),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                        body: PhotoView(
+                          imageProvider: AssetImage(result['image']),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: _getRankColor(result['rank']),
+                      width: 3,
+                    ),
+                  ),
+                  child: CircleAvatar(
+                    radius: isFullScreen ? 48 : 32,
+                    backgroundColor: Colors.grey.shade100,
+                    backgroundImage: AssetImage(result['image']),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+
+              // Name and Rank
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      result['name'],
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: isFullScreen ? 24 : 18,
+                        color: Colors.indigo,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Row(
+                      children: [
+                        Icon(Icons.emoji_events,
+                            size: isFullScreen ? 24 : 20,
+                            color: _getRankColor(result['rank'])),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Rank ${result['rank']}',
+                          style: TextStyle(
+                            fontSize: isFullScreen ? 20 : 16,
+                            fontWeight: FontWeight.w600,
+                            color: _getRankColor(result['rank']),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Icon(Icons.score,
+                            size: isFullScreen ? 24 : 20,
+                            color: Colors.teal.shade700),
+                        const SizedBox(width: 8),
+                        Text(
+                          '${result['marks']} Marks',
+                          style: TextStyle(
+                              fontSize: isFullScreen ? 20 : 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.teal.shade700),
+                        ),
+                      ],
+                    ),
+                    if (isFullScreen) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        'Subject: ${result['subject']} • Date: ${result['date']}',
+                        style: const TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.grey.shade50,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Performance Summary',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: isFullScreen ? 18 : 15,
+                    color: Colors.blueGrey,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Row(
+                  children: [
+                    _buildStatItem(
+                      'Accuracy',
+                      result['accuracy'],
+                      Icons.check,
+                      isFullScreen: isFullScreen,
+                    ),
+                    _buildStatItem(
+                      'Attempted',
+                      result['attempted'],
+                      Icons.checklist,
+                      isFullScreen: isFullScreen,
+                    ),
+                    _buildStatItem(
+                      'Time Spent',
+                      result['timeSpent'],
+                      Icons.timer,
+                      isFullScreen: isFullScreen,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: _getFeedbackColor(result['rank']).withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Icon(Icons.lightbulb_outline,
+                        size: isFullScreen ? 28 : 20,
+                        color: _getFeedbackColor(result['rank'])),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Preparation Tips',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w600,
+                        color: _getFeedbackColor(result['rank']),
+                        fontSize: isFullScreen ? 18 : 15,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  preparationFeedback,
+                  style: TextStyle(
+                    height: 1.5,
+                    fontSize: isFullScreen ? 16 : 14,
+                  ),
+                ),
+                if (suggestions.isNotEmpty) ...[
+                  const SizedBox(height: 12),
+                  Text(
+                    'Suggested Actions:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: isFullScreen ? 16 : 13,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  ...suggestions
+                      .map((suggestion) => Padding(
+                            padding: const EdgeInsets.only(left: 8, bottom: 4),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text('• '),
+                                Expanded(
+                                  child: Text(
+                                    suggestion,
+                                    style: TextStyle(
+                                      fontSize: isFullScreen ? 15 : 13,
+                                      height: 1.4,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ))
+                      .toList(),
+                ],
+              ],
+            ),
+          ),
+        ),
+        if (isFullScreen) ...[
+          const SizedBox(height: 20),
+          Center(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                // Action for detailed analysis
+              },
+              child: const Text(
+                'View Detailed Analysis',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ),
+        ],
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+
+  Widget _buildStatItem(String title, String value, IconData icon,
+      {bool isFullScreen = false}) {
+    return Expanded(
+      child: Column(
+        children: [
+          // Icon(icon, size: isFullScreen ? 28 : 20, color: Colors.blueGrey),
+          // const SizedBox(height: 8),
+          Text(
+            value,
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: isFullScreen ? 18 : 14,
+            ),
+          ),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: isFullScreen ? 14 : 12,
+              color: Colors.grey,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _getPreparationFeedback(int rank) {
+    if (rank <= 3) {
+      return 'Excellent performance! Your consistent revision and focused practice are yielding great results. Maintain this momentum while paying special attention to any remaining weak areas.';
+    } else if (rank <= 10) {
+      return 'Good work! You\'re on the right track. To move into the top ranks, focus on solving more previous year papers under timed conditions to improve both speed and accuracy.';
+    } else {
+      return 'Solid foundation detected but needs more strategic preparation. Focus on conceptual understanding through NCERT and reference books. Create and stick to a structured study schedule.';
+    }
+  }
+
+  List<String> _getSuggestions(int rank) {
+    if (rank <= 3) {
+      return [
+        'Continue advanced problem solving (2 hours daily)',
+        'Weekly mock tests under exam conditions',
+        'Focus on time management strategies'
+      ];
+    } else if (rank <= 10) {
+      return [
+        'Solve 5 extra challenging problems daily',
+        'Join peer study group for collaborative learning',
+        'Analyze mistakes from previous tests weekly'
+      ];
+    } else {
+      return [
+        'Create and follow a strict study timetable',
+        'Focus on NCERT fundamentals before advanced topics',
+        'Practice 10 numerical problems daily'
+      ];
+    }
+  }
+
+  Color _getRankColor(int rank) {
+    if (rank == 1) return Colors.amber.shade700;
+    if (rank <= 3) return Colors.orange.shade700;
+    if (rank <= 10) return Colors.teal.shade700;
+    return Colors.blueGrey;
+  }
+
+  Color _getFeedbackColor(int rank) {
+    if (rank <= 3) return Colors.green.shade700;
+    if (rank <= 10) return Colors.blue.shade700;
+    return Colors.orange.shade700;
   }
 }

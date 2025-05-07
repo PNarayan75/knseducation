@@ -332,35 +332,35 @@ class _ContactUsPageState extends State<ContactUsPage>
           children: [
             _buildAnimatedSocialIcon(
               delay: 0,
-              icon: Icons.youtube_searched_for,
+              imagePath: '/assets/images/youtube.png',
               color: Colors.red,
               label: "YouTube",
               url: "https://youtube.com/yourchannel",
             ),
             _buildAnimatedSocialIcon(
               delay: 0.1,
-              icon: Icons.facebook,
+              imagePath: '/assets/images/facebook.png',
               color: Colors.blue,
               label: "Facebook",
               url: "https://facebook.com/yourpage",
             ),
             _buildAnimatedSocialIcon(
               delay: 0.2,
-              icon: Icons.camera_alt,
+              imagePath: '/assets/images/instagram.png',
               color: Colors.pink,
               label: "Instagram",
               url: "https://instagram.com/yourprofile",
             ),
             _buildAnimatedSocialIcon(
               delay: 0.3,
-              icon: Icons.link,
+              imagePath: '/assets/images/web.png',
               color: Colors.blueGrey,
               label: "Website",
               url: "https://yourwebsite.com",
             ),
             _buildAnimatedSocialIcon(
               delay: 0.4,
-              icon: Icons.chat,
+              imagePath: '/assets/images/whatsapp.png',
               color: Colors.green,
               label: "WhatsApp",
               url: "https://wa.me/917976911779",
@@ -373,10 +373,11 @@ class _ContactUsPageState extends State<ContactUsPage>
 
   Widget _buildAnimatedSocialIcon({
     required double delay,
-    required IconData icon,
+    required String imagePath, // new: image path instead of icon
     required Color color,
     required String label,
     required String url,
+    bool isNetwork = false, // to support network or asset image
   }) {
     return ScaleTransition(
       scale: CurvedAnimation(
@@ -395,7 +396,11 @@ class _ContactUsPageState extends State<ContactUsPage>
               shape: BoxShape.circle,
               color: color.withOpacity(0.1),
             ),
-            child: Icon(icon, color: color, size: 28),
+            child: Padding(
+              padding: const EdgeInsets.all(0),
+              child:
+                  isNetwork ? Image.network(imagePath) : Image.asset(imagePath),
+            ),
           ),
         ),
       ),
