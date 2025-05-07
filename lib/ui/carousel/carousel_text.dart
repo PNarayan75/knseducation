@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_website/components/components.dart';
-
 RichText slide1Text = RichText(
   text: const TextSpan(
     children: <TextSpan>[
-      TextSpan(text: 'Design', style: carouselBlueTextStyle),
-      TextSpan(text: ' beautiful ', style: carouselWhiteTextStyle),
-      TextSpan(text: 'apps', style: carouselBlueTextStyle)
+      TextSpan(text: 'Prepare for ', style: carouselBlueTextStyle),
+      TextSpan(text: 'IIT-JEE & NEET ', style: carouselWhiteTextStyle),
+      TextSpan(text: 'with experts', style: carouselBlueTextStyle)
     ],
   ),
   textAlign: TextAlign.center,
@@ -15,8 +14,8 @@ RichText slide1Text = RichText(
 RichText slide2Text = RichText(
   text: const TextSpan(
     children: <TextSpan>[
-      TextSpan(text: 'Productively', style: carouselWhiteTextStyle),
-      TextSpan(text: ' build apps', style: carouselBlueTextStyle),
+      TextSpan(text: 'Master ', style: carouselWhiteTextStyle),
+      TextSpan(text: 'Science & Math', style: carouselBlueTextStyle),
     ],
   ),
   textAlign: TextAlign.center,
@@ -25,9 +24,9 @@ RichText slide2Text = RichText(
 RichText slide3Text = RichText(
   text: const TextSpan(
     children: <TextSpan>[
-      TextSpan(text: 'Create', style: carouselBlueTextStyle),
-      TextSpan(text: ' faster ', style: carouselWhiteTextStyle),
-      TextSpan(text: 'apps', style: carouselBlueTextStyle)
+      TextSpan(text: 'Live & Recorded ', style: carouselBlueTextStyle),
+      TextSpan(text: 'Classes ', style: carouselWhiteTextStyle),
+      TextSpan(text: 'by Top Faculty', style: carouselBlueTextStyle)
     ],
   ),
   textAlign: TextAlign.center,
@@ -36,9 +35,9 @@ RichText slide3Text = RichText(
 RichText slide4Text = RichText(
   text: const TextSpan(
     children: <TextSpan>[
-      TextSpan(text: 'Target', style: carouselBlueTextStyle),
-      TextSpan(text: ' mobile, web, & desktop ', style: carouselWhiteTextStyle),
-      TextSpan(text: 'apps', style: carouselBlueTextStyle)
+      TextSpan(text: 'Join ', style: carouselBlueTextStyle),
+      TextSpan(text: 'Class 9–12 Coaching ', style: carouselWhiteTextStyle),
+      TextSpan(text: 'Now!', style: carouselBlueTextStyle)
     ],
     style: TextStyle(height: 1.1),
   ),
