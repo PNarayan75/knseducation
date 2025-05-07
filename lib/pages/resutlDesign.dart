@@ -27,7 +27,7 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
   late final Animation<double> _fade;
   late final ScrollController _scrollController;
   Timer? _autoSlideTimer;
-  int _visibleCount = 10; // Number of results to show at once
+  int _visibleCount = 4; // Default number of results to show
 
   @override
   void initState() {
@@ -62,13 +62,23 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
         } else {
           // Scroll to next set of results
           _scrollController.animateTo(
-            currentScroll + 300, // Adjust this value based on your item width
+            currentScroll + _getScrollAmount(),
             duration: const Duration(milliseconds: 500),
             curve: Curves.easeInOut,
           );
         }
       }
     });
+  }
+
+  double _getScrollAmount() {
+    final screenWidth = MediaQuery.of(context).size.width;
+    if (screenWidth < 400) {
+      return 180; // Width of one item + padding
+    } else if (screenWidth < 600) {
+      return 400; // Width of two items + padding
+    }
+    return 700; // Width of three items + padding
   }
 
   void _openFullScreenImage(String imagePath) {
@@ -107,7 +117,17 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final itemWidth = screenWidth / (_visibleCount * 0.8); // Adjust visible count
+    
+    // Adjust visible count based on screen width
+    if (screenWidth < 400) {
+      _visibleCount = 1;
+    } else if (screenWidth < 600) {
+      _visibleCount = 2;
+    } else {
+      _visibleCount = 5;
+    }
+    
+    final itemWidth = screenWidth / (_visibleCount * 0.9); // Adjust visible count
     
     return SlideTransition(
       position: _slide,
@@ -158,7 +178,7 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
                     icon: const Icon(Icons.arrow_back),
                     onPressed: () {
                       _scrollController.animateTo(
-                        _scrollController.offset - 300,
+                        _scrollController.offset - _getScrollAmount(),
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
@@ -169,7 +189,7 @@ class _ResultSliderState extends State<ResultSlider> with SingleTickerProviderSt
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
                       _scrollController.animateTo(
-                        _scrollController.offset + 300,
+                        _scrollController.offset + _getScrollAmount(),
                         duration: const Duration(milliseconds: 500),
                         curve: Curves.easeInOut,
                       );
