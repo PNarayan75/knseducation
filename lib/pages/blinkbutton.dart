@@ -81,7 +81,7 @@ class _BlinkingRegisterButtonState extends State<BlinkingRegisterButton>
           children: [
             const Text("REGISTER NOW"),
             const SizedBox(width: 10),
-            const Icon(Icons.arrow_forward, size: 20),
+            // const Icon(Icons.arrow_forward, size: 20),
           ],
         ),
       ),

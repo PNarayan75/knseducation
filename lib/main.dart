@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_website/pages/blinkbutton.dart';
 import 'package:flutter_website/pages/contact_us.dart';
 import 'package:flutter_website/pages/resutlDesign.dart';
+import 'package:flutter_website/pages/studentRegistrationform.dart';
 import 'package:flutter_website/test.dart';
 import 'package:url_launcher/url_launcher.dart'; // for launching URLs
 
@@ -24,57 +25,68 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      builder: (context, widget) => ResponsiveBreakpoints.builder(
-        child: Builder(builder: (context) {
-          return ResponsiveScaledBox(
-              width: ResponsiveValue<double?>(context,
-                  defaultValue: null,
-                  conditionalValues: [
-                    const Condition.equals(name: 'MOBILE_SMALL', value: 480),
-                  ]).value,
-              child: ClampingScrollWrapper.builder(context, widget!));
-        }),
-        breakpoints: [
-          const Breakpoint(start: 0, end: 480, name: 'MOBILE_SMALL'),
-          const Breakpoint(start: 481, end: 850, name: MOBILE),
-          const Breakpoint(start: 850, end: 1080, name: TABLET),
-          const Breakpoint(start: 1081, end: double.infinity, name: DESKTOP),
-        ],
-      ),
-      home: Scaffold(
-        backgroundColor: background,
-        appBar: const PreferredSize(
-            preferredSize: Size(double.infinity, 66), child: WebsiteMenuBar()),
-        body: Stack(
-          children: [
-            ListView.builder(
-              itemCount: blocks.length,
-              itemBuilder: (context, index) {
-                return blocks[index];
-              },
+        builder: (context, widget) => ResponsiveBreakpoints.builder(
+              child: Builder(builder: (context) {
+                return ResponsiveScaledBox(
+                    width: ResponsiveValue<double?>(context,
+                        defaultValue: null,
+                        conditionalValues: [
+                          const Condition.equals(
+                              name: 'MOBILE_SMALL', value: 480),
+                        ]).value,
+                    child: ClampingScrollWrapper.builder(context, widget!));
+              }),
+              breakpoints: [
+                const Breakpoint(start: 0, end: 480, name: 'MOBILE_SMALL'),
+                const Breakpoint(start: 481, end: 850, name: MOBILE),
+                const Breakpoint(start: 850, end: 1080, name: TABLET),
+                const Breakpoint(
+                    start: 1081, end: double.infinity, name: DESKTOP),
+              ],
             ),
-            Positioned(
-              right: 0,
-              top: MediaQuery.of(context).size.height / 2 - 60,
-              child: _WhatsAppHoverButton(),
-            ),
-            Positioned(
-              right: 0,
-              top: MediaQuery.of(context).size.height / 2 + 20,
-              child: _TelegramHoverButton(),
-            ),
-            Positioned(
-              left: 0,
-              top: MediaQuery.of(context).size.height / 4 - 200,
-              child: BlinkingRegisterButton(
-                onTap: () {},
-              ),
-            ),
-          ],
-        ),
-      ),
       debugShowCheckedModeBanner: false,
-    );
+
+        home: Builder(
+          builder: (context) => Scaffold(
+            backgroundColor: background,
+            appBar: const PreferredSize(
+                preferredSize: Size(double.infinity, 66),
+                child: WebsiteMenuBar()),
+            body: Stack(
+              children: [
+                ListView.builder(
+                  itemCount: blocks.length,
+                  itemBuilder: (context, index) {
+                    return blocks[index];
+                  },
+                ),
+                Positioned(
+                  right: 0,
+                  top: MediaQuery.of(context).size.height / 2 - 60,
+                  child: _WhatsAppHoverButton(),
+                ),
+                Positioned(
+                  right: 0,
+                  top: MediaQuery.of(context).size.height / 2 + 20,
+                  child: _TelegramHoverButton(),
+                ),
+                Positioned(
+                  left: 0,
+                  top: MediaQuery.of(context).size.height / 2 - 60,
+                  child: BlinkingRegisterButton(onTap: () {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const StudentRegistrationForm(),
+                        ),
+                      );
+                    });
+                  }),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }
 
@@ -91,9 +103,11 @@ List<Widget> blocks = [
           child: RepaintBoundary(child: Carousel())),
     ),
   ),
-  const BlockWrapper(GetStarted()),
-  const BlockWrapper(KnowYourMentor()),
   const BlockWrapper(ResultSlider()),
+
+  const BlockWrapper(KnowYourMentor()),
+  const BlockWrapper(GetStarted()),
+
   const BlockWrapper(ContactUsPage()),
   // ContactUsPage(),
   // const BlockWrapper(NativePerformance()),
@@ -143,7 +157,6 @@ class _WhatsAppHoverButtonState extends State<_WhatsAppHoverButton> {
                 height: 40,
                 width: 40,
               ),
-
               if (_isHovering)
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -187,10 +200,10 @@ class _TelegramHoverButtonState extends State<_TelegramHoverButton> {
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Image.asset(
+              Image.asset(
                 '/assets/images/youtube.png',
                 height: 40,
                 width: 40,
