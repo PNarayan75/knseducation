@@ -506,7 +506,7 @@ class _WebsiteMenuBarState extends State<WebsiteMenuBar>
           ],
         ),
         child: Transform.rotate(
-          angle: isHovered ? 0.1 : 0.0, // Subtle rotation on hover
+          angle: isHovered ? 0.1 : 0.0, 
           child: AnimatedScale(
             scale: isHovered ? 1.2 : 1.0,
             duration: const Duration(milliseconds: 200),
