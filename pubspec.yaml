@@ -23,6 +23,8 @@ dependencies:
   get: ^4.7.2
   photo_view: ^0.15.0
   flutter_svg: ^2.1.0
+  cloud_firestore: ^5.6.7
+  firebase_core: ^3.13.0
 #  responsive_framework:
 #    path: responsive_framework/
 

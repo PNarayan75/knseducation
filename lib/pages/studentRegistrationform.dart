@@ -1,33 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_website/pages/studentRegistrationController.dart';
+import 'package:get/get.dart';
 
-class StudentRegistrationForm extends StatefulWidget {
+class StudentRegistrationForm extends StatelessWidget {
   const StudentRegistrationForm({super.key});
 
   @override
-  State<StudentRegistrationForm> createState() => _StudentRegistrationFormState();
-}
-
-class _StudentRegistrationFormState extends State<StudentRegistrationForm> {
-  final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _phoneController = TextEditingController();
-  final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
-  String? _selectedClass;
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _phoneController.dispose();
-    _emailController.dispose();
-    _addressController.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Get.put(StudentRegistrationController());
+
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: const Text('STUDENT REGISTRATION'),
         centerTitle: true,
       ),
@@ -50,7 +34,7 @@ class _StudentRegistrationFormState extends State<StudentRegistrationForm> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Form(
-                key: _formKey,
+                key: controller.formKey,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -65,40 +49,35 @@ class _StudentRegistrationFormState extends State<StudentRegistrationForm> {
                       ),
                     ),
                     const SizedBox(height: 24),
-
                     buildLabel('Name'),
-                    buildInputField(_nameController, 'Enter your name'),
-
+                    buildInputField(controller.nameController, 'Enter your name'),
                     buildLabel('Phone Number'),
-                    buildInputField(_phoneController, 'Enter your phone number',
+                    buildInputField(controller.phoneController, 'Enter your phone number',
                         keyboardType: TextInputType.phone),
-
                     buildLabel('Email'),
-                    buildInputField(_emailController, 'Enter your email',
+                    buildInputField(controller.emailController, 'Enter your email',
                         keyboardType: TextInputType.emailAddress),
-
                     buildLabel('Studying in'),
-                    DropdownButtonFormField<String>(
-                      value: _selectedClass,
-                      decoration: buildInputDecoration('10 / 11 / 12 / Drop'),
-                      items: const [
-                        DropdownMenuItem(value: '10', child: Text('10')),
-                        DropdownMenuItem(value: '11', child: Text('11')),
-                        DropdownMenuItem(value: '12', child: Text('12')),
-                        DropdownMenuItem(value: 'Drop', child: Text('Drop')),
-                      ],
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedClass = value;
-                        });
-                      },
-                      validator: (value) =>
-                          value == null || value.isEmpty ? 'Please select your class' : null,
-                    ),
-
+                    Obx(() => DropdownButtonFormField<String>(
+                          value: controller.selectedClass.value.isEmpty
+                              ? null
+                              : controller.selectedClass.value,
+                          decoration: buildInputDecoration('10 / 11 / 12 / Drop'),
+                          items: const [
+                            DropdownMenuItem(value: '10', child: Text('10')),
+                            DropdownMenuItem(value: '11', child: Text('11')),
+                            DropdownMenuItem(value: '12', child: Text('12')),
+                            DropdownMenuItem(value: 'Drop', child: Text('Drop')),
+                          ],
+                          onChanged: (value) {
+                            controller.selectedClass.value = value ?? '';
+                          },
+                          validator: (value) =>
+                              value == null || value.isEmpty ? 'Please select your class' : null,
+                        )),
                     buildLabel('Address'),
                     TextFormField(
-                      controller: _addressController,
+                      controller: controller.addressController,
                       maxLines: 3,
                       decoration: buildInputDecoration('Enter your address'),
                       validator: (value) {
@@ -109,37 +88,39 @@ class _StudentRegistrationFormState extends State<StudentRegistrationForm> {
                       },
                     ),
                     const SizedBox(height: 24),
-
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Form submitted successfully!'),
+                    Obx(() => SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: controller.isLoading.value
+                                ? null
+                                : controller.submitForm,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF689F38),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
                               ),
-                            );
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF689F38),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                            ),
+                            child: controller.isLoading.value
+                                ? const SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.white,
+                                      strokeWidth: 2,
+                                    ),
+                                  )
+                                : const Text(
+                                    'SUBMIT',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      letterSpacing: 1.2,
+                                    ),
+                                  ),
                           ),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                        ),
-                        child: const Text(
-                          'SUBMIT',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                            color: Colors.white,
-                            letterSpacing: 1.2,
-                          ),
-                        ),
-                      ),
-                    ),
+                        )),
                   ],
                 ),
               ),

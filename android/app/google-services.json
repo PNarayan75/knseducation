@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "686982146038",
+    "project_id": "knseducation-29f8d",
+    "storage_bucket": "knseducation-29f8d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:686982146038:android:e32887d344a0c6446f89d7",
+        "android_client_info": {
+          "package_name": "com.flutter_website"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBBUb7_Rjo3-rVCVV7laJccPzJGZwSPnTw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_website/firebase_options.dart';
 import 'package:flutter_website/pages/blinkbutton.dart';
 import 'package:flutter_website/pages/contact_us.dart';
 import 'package:flutter_website/pages/resutlDesign.dart';
@@ -15,7 +17,11 @@ import 'package:universal_io/io.dart';
 
 import 'ui/blocks.dart';
 
-void main() {
+void main()async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

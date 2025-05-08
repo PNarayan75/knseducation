@@ -278,71 +278,87 @@ class _WebsiteMenuBarState extends State<WebsiteMenuBar>
                 ),
               ),
             ),
-SizedBox(width: 5,),
-           ResponsiveVisibility(
-  visible: false,
-  visibleConditions: const [Condition.largerThan(name: MOBILE)],
-  child: SlideTransition(
-    position: _slideAnimations[1],
-    child: MouseRegion(
-      onEnter: (_) => _updateHoverState(1, true),
-      onExit: (_) => _updateHoverState(1, false),
-      cursor: SystemMouseCursors.click,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: _hoverStates[1]! ? navLinkHoverBackgroundColor : navLinkBackgroundColor,
-          border: Border.all(
-            color: _hoverStates[1]! ? navLinkHoverBorderColor : navLinkBorderColor,
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: _buildNavLink(
-          context,
-          text: "NEET",
-          onTap: () => _openUrl("https://docs.example.com"),
-          color: _hoverStates[1]! ? navLinkHoverColor : navLinkColor,
-          fontFamily: fontFamily,
-          isHovered: _hoverStates[1]!,
-        ),
-      ),
-    ),
-  ),
-),
-SizedBox(width: 5,),
+            SizedBox(
+              width: 5,
+            ),
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: SlideTransition(
+                position: _slideAnimations[1],
+                child: MouseRegion(
+                  onEnter: (_) => _updateHoverState(1, true),
+                  onExit: (_) => _updateHoverState(1, false),
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: _hoverStates[1]!
+                          ? navLinkHoverBackgroundColor
+                          : navLinkBackgroundColor,
+                      border: Border.all(
+                        color: _hoverStates[1]!
+                            ? navLinkHoverBorderColor
+                            : navLinkBorderColor,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: _buildNavLink(
+                      context,
+                      text: "NEET",
+                      onTap: () => _openUrl("https://docs.example.com"),
+                      color:
+                          _hoverStates[1]! ? navLinkHoverColor : navLinkColor,
+                      fontFamily: fontFamily,
+                      isHovered: _hoverStates[1]!,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 5,
+            ),
 
-          ResponsiveVisibility(
-  visible: false,
-  visibleConditions: const [Condition.largerThan(name: MOBILE)],
-  child: SlideTransition(
-    position: _slideAnimations[2],
-    child: MouseRegion(
-      onEnter: (_) => _updateHoverState(2, true),
-      onExit: (_) => _updateHoverState(2, false),
-      cursor: SystemMouseCursors.click,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        decoration: BoxDecoration(
-          color: _hoverStates[2]! ? navLinkHoverBackgroundColor : navLinkBackgroundColor,
-          border: Border.all(
-            color: _hoverStates[2]! ? navLinkHoverBorderColor : navLinkBorderColor,
-            width: 1.5,
-          ),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: _buildNavLink(
-          context,
-          text: "Pricing",
-          onTap: () {},
-          color: _hoverStates[2]! ? navLinkHoverColor : navLinkColor,
-          fontFamily: fontFamily,
-          isHovered: _hoverStates[2]!,
-        ),
-      ),
-    ),
-  ),
-),
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: SlideTransition(
+                position: _slideAnimations[2],
+                child: MouseRegion(
+                  onEnter: (_) => _updateHoverState(2, true),
+                  onExit: (_) => _updateHoverState(2, false),
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: _hoverStates[2]!
+                          ? navLinkHoverBackgroundColor
+                          : navLinkBackgroundColor,
+                      border: Border.all(
+                        color: _hoverStates[2]!
+                            ? navLinkHoverBorderColor
+                            : navLinkBorderColor,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: _buildNavLink(
+                      context,
+                      text: "Pricing",
+                      onTap: () {},
+                      color:
+                          _hoverStates[2]! ? navLinkHoverColor : navLinkColor,
+                      fontFamily: fontFamily,
+                      isHovered: _hoverStates[2]!,
+                    ),
+                  ),
+                ),
+              ),
+            ),
 
             ResponsiveVisibility(
               visible: false,
