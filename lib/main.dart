@@ -71,8 +71,8 @@ class MyApp extends StatelessWidget {
                   child: _TelegramHoverButton(),
                 ),
                 Positioned(
-                  left: 0,
-                  top: MediaQuery.of(context).size.height / 2 - 60,
+                  left: 10,
+                  top: MediaQuery.of(context).size.height / 2 + 160,
                   child: BlinkingRegisterButton(onTap: () {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       Navigator.of(context).push(

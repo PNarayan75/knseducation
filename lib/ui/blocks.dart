@@ -10,211 +10,600 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:universal_io/io.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
-class WebsiteMenuBar extends StatelessWidget {
+class WebsiteMenuBar extends StatefulWidget {
   const WebsiteMenuBar({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const Color navLinkColor = Color(0xFF6E7274);
-    return Container(
-      height: 66,
-      decoration: const BoxDecoration(color: Colors.white, boxShadow: [
-        BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4)
-      ]),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          const Padding(
-              padding: EdgeInsets.only(right: 16),
-              child: Icon(Icons.menu, color: textPrimary, size: 28)),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () =>
-                  Navigator.of(context).popUntil((route) => route.isFirst),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(0, 5, 16, 5),
-                child: Image.asset("assets/images/logo.png",
-                    height: 47, fit: BoxFit.contain),
-              ),
-            ),
-          ),
-          const Spacer(),
-          ResponsiveVisibility(
-            visible: false,
-            visibleConditions: const [Condition.largerThan(name: MOBILE)],
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: GestureDetector(
-                // onTap: () => openUrl("https://flutter.dev/docs"),
-                onTap: () {},
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: Text("",
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: navLinkColor,
-                          fontFamily: fontFamily)),
-                ),
-              ),
-            ),
-          ),
-          // ResponsiveVisibility(
-          //   visible: false,
-          //   visibleConditions: const [Condition.largerThan(name: MOBILE)],
-          //   child: MouseRegion(
-          //     cursor: SystemMouseCursors.click,
-          //     child: GestureDetector(
-          //       onTap: () {},
-          //       child: const Padding(
-          //         padding: EdgeInsets.symmetric(horizontal: 16),
-          //         child: Text("Showcase",
-          //             style: TextStyle(
-          //                 fontSize: 16,
-          //                 color: navLinkColor,
-          //                 fontFamily: fontFamily)),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          // ResponsiveVisibility(
-          //   visible: false,
-          //   visibleConditions: const [Condition.largerThan(name: MOBILE)],
-          //   child: MouseRegion(
-          //     cursor: SystemMouseCursors.click,
-          //     child: GestureDetector(
-          //       onTap: () {},
-          //       child: const Padding(
-          //           padding: EdgeInsets.symmetric(horizontal: 16),
-          //           child: Text("Community",
-          //               style: TextStyle(
-          //                   fontSize: 16,
-          //                   color: navLinkColor,
-          //                   fontFamily: fontFamily))),
-          //     ),
-          //   ),
-          // ),
-          const ResponsiveVisibility(
-            visible: false,
-            visibleConditions: [Condition.largerThan(name: MOBILE)],
-            child: MouseRegion(
-              cursor: SystemMouseCursors.click,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 18),
-                child: ImageIcon(
-                    AssetImage("assets/images/icon_search_64x.png"),
-                    color: navLinkColor,
-                    size: 24),
-              ),
-            ),
-          ),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: ImageIcon(
-                    AssetImage("assets/images/icon_twitter_64x.png"),
-                    color: navLinkColor,
-                    size: 24),
-              ),
-            ),
-          ),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: ImageIcon(
-                    AssetImage("assets/images/icon_youtube_64x.png"),
-                    color: navLinkColor,
-                    size: 24),
-              ),
-            ),
-          ),
-          MouseRegion(
-            cursor: SystemMouseCursors.click,
-            child: GestureDetector(
-              onTap: () {},
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
-                child: ImageIcon(
-                    AssetImage("assets/images/icon_github_64x.png"),
-                    color: navLinkColor,
-                    size: 24),
-              ),
-            ),
-          ),
-          ResponsiveVisibility(
-            visible: false,
-            visibleConditions: const [Condition.largerThan(name: MOBILE)],
-            child: Padding(
-              padding: const EdgeInsets.only(left: 8, right: 0),
-              child: TextButton(
-                onPressed: () {
-                  print("onpressed ");
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => StudentRegistrationForm()),
-                  );
-                },
-                style: ButtonStyle(
-                    backgroundColor: WidgetStateProperty.all<Color>(primary),
-                    overlayColor: WidgetStateProperty.resolveWith<Color>(
-                      (Set<WidgetState> states) {
-                        if (states.contains(WidgetState.hovered)) {
-                          return buttonPrimaryDark;
-                        }
-                        if (states.contains(WidgetState.focused) ||
-                            states.contains(WidgetState.pressed)) {
-                          return buttonPrimaryDarkPressed;
-                        }
-                        return primary;
-                      },
-                    ),
-                    // Shape sets the border radius from default 3 to 0.
-                    shape: WidgetStateProperty.resolveWith<OutlinedBorder>(
-                      (Set<WidgetState> states) {
-                        if (states.contains(WidgetState.focused) ||
-                            states.contains(WidgetState.pressed)) {
-                          return const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(0)));
-                        }
-                        return const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(0)));
-                      },
-                    ),
-                    padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
-                        const EdgeInsets.symmetric(
-                            vertical: 22, horizontal: 28)),
-                    // Side adds pressed highlight outline.
-                    side: WidgetStateProperty.resolveWith<BorderSide>(
-                        (Set<WidgetState> states) {
-                      if (states.contains(WidgetState.focused) ||
-                          states.contains(WidgetState.pressed)) {
-                        return const BorderSide(
-                            width: 3, color: buttonPrimaryPressedOutline);
-                      }
-                      // Transparent border placeholder as Flutter does not allow
-                      // negative margins.
-                      return const BorderSide(width: 3, color: Colors.white);
-                    })),
-                child: Text(
-                  "Get started",
-                  style: buttonTextStyle.copyWith(
-                      fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ),
-        ],
+  _WebsiteMenuBarState createState() => _WebsiteMenuBarState();
+}
+
+class _WebsiteMenuBarState extends State<WebsiteMenuBar>
+    with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _logoBounceAnimation;
+  late List<Animation<Offset>> _slideAnimations;
+  late AnimationController _colorController;
+  // Track hover states
+  Color navLinkColor = Colors.white;
+  Color navLinkHoverColor = Colors.black;
+  Color navLinkBackgroundColor = Colors.transparent;
+  Color navLinkHoverBackgroundColor = Color(0xFFE0E0E0); // light grey on hover
+  Color navLinkBorderColor = Colors.grey;
+  Color navLinkHoverBorderColor = Colors.black;
+
+  final Map<int, bool> _hoverStates = {
+    0: false, // Features
+    1: false, // Docs
+    2: false, // Pricing
+    3: false, // Search
+    4: false, // Twitter
+    5: false, // YouTube
+    6: false, // GitHub
+    7: false, // Get Started
+    8: false, // Company Name
+    9: false,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _colorController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 3),
+    )..repeat();
+    _fadeAnimation = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.5, curve: Curves.easeInOut),
+    );
+
+    _logoBounceAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: const Interval(0.0, 0.4, curve: Curves.bounceOut),
       ),
     );
+
+    _slideAnimations = List.generate(
+      7, // 3 nav links + 4 icons
+      (index) => Tween<Offset>(
+        begin: const Offset(1.0, 0.0),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: _controller,
+          curve: Interval(
+            0.3 + (index * 0.1),
+            0.7 + (index * 0.1),
+            curve: Curves.easeOut,
+          ),
+        ),
+      ),
+    );
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _updateHoverState(int index, bool isHovered) {
+    setState(() {
+      _hoverStates[index] = isHovered;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    const Color navLinkColor = Color(0xFF4A4E69);
+    const Color navLinkHoverColor = Color(0xFF007BFF);
+    const Color primary = Color(0xFF007BFF);
+    const Color buttonHover = Color(0xFF0056B3);
+    const String fontFamily = 'Roboto';
+
+    return FadeTransition(
+      opacity: _fadeAnimation,
+      child: Container(
+        height: 72,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xFFFFFFFF), Color(0xFFF8F9FA)],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Color(0x1A000000),
+              offset: Offset(0, 3),
+              blurRadius: 6,
+            ),
+          ],
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                onTap: () {},
+                child: const Icon(
+                  Icons.menu,
+                  color: navLinkColor,
+                  size: 30,
+                ),
+              ),
+            ),
+            // ScaleTransition(
+            //   scale: _logoBounceAnimation,
+            //   child: MouseRegion(
+            //     cursor: SystemMouseCursors.click,
+            //     child: GestureDetector(
+            //       onTap: () =>
+            //           Navigator.of(context).popUntil((route) => route.isFirst),
+            //       child: Padding(
+            //         padding: const EdgeInsets.fromLTRB(0, 5, 10, 5),
+            //         child: Image.asset(
+            //           "assets/images/logo.png",
+            //           height: 50,
+            //           fit: BoxFit.contain,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+
+            ScaleTransition(
+              scale: _logoBounceAnimation,
+              child: MouseRegion(
+                onEnter: (_) => _updateHoverState(8, true),
+                onExit: (_) => _updateHoverState(8, false),
+                cursor: SystemMouseCursors.click,
+                child: GestureDetector(
+                  onTap: () =>
+                      Navigator.of(context).popUntil((route) => route.isFirst),
+                  child: AnimatedBuilder(
+                    animation: _colorController,
+                    builder: (context, child) {
+                      return ShaderMask(
+                        shaderCallback: (bounds) {
+                          return LinearGradient(
+                            colors: const [
+                              Color(0xFFFF9933), // Saffron
+                              Color(0xFFFFFFFF), // White
+                              Color(0xFF138808), // Green
+                              Color(0xFF000080), // Navy Blue
+                              Color(0xFFFF9933), // Saffron
+                            ],
+                            stops: [
+                              0.0,
+                              0.25,
+                              0.5,
+                              0.75,
+                              1.0,
+                            ],
+                            transform: GradientRotation(
+                                _colorController.value * 2 * 3.14159),
+                          ).createShader(bounds);
+                        },
+                        child: Text(
+                          "KNS Education",
+                          style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.white, // Base color for ShaderMask
+                            fontFamily: fontFamily,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: navLinkHoverColor
+                                    .withOpacity(_hoverStates[8]! ? 0.4 : 0.2),
+                                blurRadius: _hoverStates[8]! ? 6 : 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: SlideTransition(
+                position: _slideAnimations[0],
+                child: MouseRegion(
+                  onEnter: (_) => _updateHoverState(9, true),
+                  onExit: (_) => _updateHoverState(9, false),
+                  cursor: SystemMouseCursors.click,
+                  child: _buildNavLink(
+                    context,
+                    text: "Counseling Guide:",
+                    onTap: () {},
+                    color: _hoverStates[8]! ? navLinkHoverColor : navLinkColor,
+                    fontFamily: fontFamily,
+                    isHovered: _hoverStates[9]!,
+                  ),
+                ),
+              ),
+            ),
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: SlideTransition(
+                position: _slideAnimations[0],
+                child: MouseRegion(
+                  onEnter: (_) => _updateHoverState(0, true),
+                  onExit: (_) => _updateHoverState(0, false),
+                  cursor: SystemMouseCursors.click,
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: _hoverStates[0]!
+                          ? navLinkHoverBackgroundColor
+                          : navLinkBackgroundColor,
+                      border: Border.all(
+                        color: _hoverStates[0]!
+                            ? navLinkHoverBorderColor
+                            : navLinkBorderColor,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(8), // Rounded corners
+                    ),
+                    child: _buildNavLink(
+                      context,
+                      text: "IIT JEE",
+                      onTap: () {},
+                      color:
+                          _hoverStates[0]! ? navLinkHoverColor : navLinkColor,
+                      fontFamily: fontFamily,
+                      isHovered: _hoverStates[0]!,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+SizedBox(width: 5,),
+           ResponsiveVisibility(
+  visible: false,
+  visibleConditions: const [Condition.largerThan(name: MOBILE)],
+  child: SlideTransition(
+    position: _slideAnimations[1],
+    child: MouseRegion(
+      onEnter: (_) => _updateHoverState(1, true),
+      onExit: (_) => _updateHoverState(1, false),
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: _hoverStates[1]! ? navLinkHoverBackgroundColor : navLinkBackgroundColor,
+          border: Border.all(
+            color: _hoverStates[1]! ? navLinkHoverBorderColor : navLinkBorderColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: _buildNavLink(
+          context,
+          text: "NEET",
+          onTap: () => _openUrl("https://docs.example.com"),
+          color: _hoverStates[1]! ? navLinkHoverColor : navLinkColor,
+          fontFamily: fontFamily,
+          isHovered: _hoverStates[1]!,
+        ),
+      ),
+    ),
+  ),
+),
+SizedBox(width: 5,),
+
+          ResponsiveVisibility(
+  visible: false,
+  visibleConditions: const [Condition.largerThan(name: MOBILE)],
+  child: SlideTransition(
+    position: _slideAnimations[2],
+    child: MouseRegion(
+      onEnter: (_) => _updateHoverState(2, true),
+      onExit: (_) => _updateHoverState(2, false),
+      cursor: SystemMouseCursors.click,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: _hoverStates[2]! ? navLinkHoverBackgroundColor : navLinkBackgroundColor,
+          border: Border.all(
+            color: _hoverStates[2]! ? navLinkHoverBorderColor : navLinkBorderColor,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: _buildNavLink(
+          context,
+          text: "Pricing",
+          onTap: () {},
+          color: _hoverStates[2]! ? navLinkHoverColor : navLinkColor,
+          fontFamily: fontFamily,
+          isHovered: _hoverStates[2]!,
+        ),
+      ),
+    ),
+  ),
+),
+
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: SlideTransition(
+                position: _slideAnimations[3],
+                child: MouseRegion(
+                  onEnter: (_) => _updateHoverState(3, true),
+                  onExit: (_) => _updateHoverState(3, false),
+                  cursor: SystemMouseCursors.click,
+                  child: _buildIconButton(
+                    context,
+                    iconPath: "assets/images/icon_search_64x.png",
+                    onTap: () {},
+                    color: _hoverStates[3]! ? navLinkHoverColor : navLinkColor,
+                    isHovered: _hoverStates[3]!,
+                  ),
+                ),
+              ),
+            ),
+            SlideTransition(
+              position: _slideAnimations[4],
+              child: MouseRegion(
+                onEnter: (_) => _updateHoverState(4, true),
+                onExit: (_) => _updateHoverState(4, false),
+                cursor: SystemMouseCursors.click,
+                child: _buildIconButton(
+                  context,
+                  iconPath: "assets/images/icon_twitter_64x.png",
+                  onTap: () => _openUrl("https://twitter.com"),
+                  color: _hoverStates[4]! ? navLinkHoverColor : navLinkColor,
+                  isHovered: _hoverStates[4]!,
+                ),
+              ),
+            ),
+            SlideTransition(
+              position: _slideAnimations[5],
+              child: MouseRegion(
+                onEnter: (_) => _updateHoverState(5, true),
+                onExit: (_) => _updateHoverState(5, false),
+                cursor: SystemMouseCursors.click,
+                child: _buildIconButton(
+                  context,
+                  iconPath: "assets/images/icon_youtube_64x.png",
+                  onTap: () => _openUrl("https://youtube.com"),
+                  color: _hoverStates[5]! ? navLinkHoverColor : navLinkColor,
+                  isHovered: _hoverStates[5]!,
+                ),
+              ),
+            ),
+            SlideTransition(
+              position: _slideAnimations[6],
+              child: MouseRegion(
+                onEnter: (_) => _updateHoverState(6, true),
+                onExit: (_) => _updateHoverState(6, false),
+                cursor: SystemMouseCursors.click,
+                child: _buildIconButton(
+                  context,
+                  iconPath: "assets/images/icon_github_64x.png",
+                  onTap: () => _openUrl("https://github.com"),
+                  color: _hoverStates[6]! ? navLinkHoverColor : navLinkColor,
+                  isHovered: _hoverStates[6]!,
+                ),
+              ),
+            ),
+            ResponsiveVisibility(
+              visible: false,
+              visibleConditions: const [Condition.largerThan(name: MOBILE)],
+              child: MouseRegion(
+                onEnter: (_) => _updateHoverState(7, true),
+                onExit: (_) => _updateHoverState(7, false),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 12),
+                  child: _buildGetStartedButton(
+                    context,
+                    primary,
+                    buttonHover,
+                    _hoverStates[7]!,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNavLink(
+    BuildContext context, {
+    required String text,
+    required VoidCallback onTap,
+    required Color color,
+    required String fontFamily,
+    required bool isHovered,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        transform: Matrix4.identity()..scale(isHovered ? 1.1 : 1.0),
+        transformAlignment: Alignment.center,
+        child: AnimatedDefaultTextStyle(
+          duration: const Duration(milliseconds: 200),
+          style: TextStyle(
+            fontSize: 16,
+            color: color,
+            fontFamily: fontFamily,
+            fontWeight: FontWeight.w500,
+            shadows: [
+              Shadow(
+                color: color.withOpacity(isHovered ? 0.4 : 0.2),
+                blurRadius: isHovered ? 6 : 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Text(text),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildIconButton(
+    BuildContext context, {
+    required String iconPath,
+    required VoidCallback onTap,
+    required Color color,
+    required bool isHovered,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: color.withOpacity(isHovered ? 0.4 : 0.2),
+              blurRadius: isHovered ? 8 : 4,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: Transform.rotate(
+          angle: isHovered ? 0.1 : 0.0, // Subtle rotation on hover
+          child: AnimatedScale(
+            scale: isHovered ? 1.2 : 1.0,
+            duration: const Duration(milliseconds: 200),
+            child: ImageIcon(
+              AssetImage(iconPath),
+              color: color,
+              size: 26,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildGetStartedButton(
+    BuildContext context,
+    Color primary,
+    Color buttonHover,
+    bool isHovered,
+  ) {
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        final pulse = 1.0 + 0.05 * (1.0 - _controller.value);
+        final hoverScale = isHovered ? 1.1 : 1.0;
+        return Transform.scale(
+          scale: pulse * hoverScale,
+          child: TextButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const StudentRegistrationForm()),
+              );
+            },
+            style: ButtonStyle(
+              backgroundColor: WidgetStateProperty.all<Color>(primary),
+              overlayColor: WidgetStateProperty.resolveWith<Color>(
+                (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.hovered)) {
+                    return buttonHover;
+                  }
+                  return primary;
+                },
+              ),
+              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              padding: WidgetStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 16, horizontal: 32),
+              ),
+              side: WidgetStateProperty.resolveWith<BorderSide>(
+                (Set<WidgetState> states) {
+                  return const BorderSide(width: 0, color: Colors.transparent);
+                },
+              ),
+              elevation: WidgetStateProperty.resolveWith<double>(
+                (Set<WidgetState> states) {
+                  if (states.contains(WidgetState.hovered)) {
+                    return 12.0;
+                  }
+                  return 4.0;
+                },
+              ),
+            ),
+            child: AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
+                shadows: [
+                  Shadow(
+                    color: Colors.white.withOpacity(isHovered ? 0.6 : 0.3),
+                    blurRadius: isHovered ? 8 : 4,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: const Text("Get Started"),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _openUrl(String url) {
+    // Implement URL opening logic (e.g., using url_launcher package)
+  }
+}
+
+class ResponsiveVisibility extends StatelessWidget {
+  final Widget child;
+  final bool visible;
+  final List<Condition> visibleConditions;
+
+  const ResponsiveVisibility({
+    super.key,
+    required this.child,
+    required this.visible,
+    required this.visibleConditions,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // Simplified responsive logic for example purposes
+    return MediaQuery.of(context).size.width > 600
+        ? child
+        : const SizedBox.shrink();
   }
 }
 
