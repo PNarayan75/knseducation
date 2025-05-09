@@ -134,7 +134,6 @@ class _ResultSliderState extends State<ResultSlider>
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        // Update visible count when layout changes
         WidgetsBinding.instance
             .addPostFrameCallback((_) => _updateVisibleCount());
 

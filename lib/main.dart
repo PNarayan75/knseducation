@@ -6,6 +6,7 @@ import 'package:flutter_website/pages/blinkbutton.dart';
 import 'package:flutter_website/pages/contact_us.dart';
 import 'package:flutter_website/pages/resutlDesign.dart';
 import 'package:flutter_website/pages/studentRegistrationform.dart';
+import 'package:flutter_website/pages/testcirclepage.dart';
 import 'package:flutter_website/test.dart';
 import 'package:url_launcher/url_launcher.dart'; // for launching URLs
 
@@ -83,7 +84,7 @@ class MyApp extends StatelessWidget {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const StudentRegistrationForm(),
+                          builder: (context) =>  SemiCircleContainerPage(),
                         ),
                       );
                     });
