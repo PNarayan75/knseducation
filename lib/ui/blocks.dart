@@ -5,15 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_website/components/components.dart';
 import 'package:flutter_website/pages/studentRegistrationform.dart';
 import 'package:flutter_website/utils/utils.dart';
-import 'package:get/route_manager.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:universal_io/io.dart';
 import 'package:video_player/video_player.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class WebsiteMenuBar extends StatefulWidget {
   const WebsiteMenuBar({super.key});
