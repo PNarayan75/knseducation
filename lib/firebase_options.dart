@@ -47,21 +47,23 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBodAef-HEegUOFhZi1pSHWaCzMCeObQJc',
-    appId: '1:686982146038:web:32c44a97189f65106f89d7',
-    messagingSenderId: '686982146038',
-    projectId: 'knseducation-29f8d',
-    authDomain: 'knseducation-29f8d.firebaseapp.com',
-    storageBucket: 'knseducation-29f8d.firebasestorage.app',
-    measurementId: 'G-BL8BJPPDXS',
+    apiKey: 'AIzaSyC7pr29VLmatlf7KUwRJ4tc00e-Vpi0CRE',
+    appId: '1:734062564522:web:3fbc5e730d423cad7facd3',
+    messagingSenderId: '734062564522',
+    projectId: 'target100-f19be',
+    authDomain: 'target100-f19be.firebaseapp.com',
+    databaseURL: 'https://target100-f19be-default-rtdb.firebaseio.com',
+    storageBucket: 'target100-f19be.firebasestorage.app',
+    measurementId: 'G-PPZ66521W3',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBBUb7_Rjo3-rVCVV7laJccPzJGZwSPnTw',
-    appId: '1:686982146038:android:e32887d344a0c6446f89d7',
-    messagingSenderId: '686982146038',
-    projectId: 'knseducation-29f8d',
-    storageBucket: 'knseducation-29f8d.firebasestorage.app',
+    apiKey: 'AIzaSyDWdHSOdvbHMPTyNOB0bf7eHJ9W-pYSweo',
+    appId: '1:734062564522:android:793ba64fc8a5aa577facd3',
+    messagingSenderId: '734062564522',
+    projectId: 'target100-f19be',
+    databaseURL: 'https://target100-f19be-default-rtdb.firebaseio.com',
+    storageBucket: 'target100-f19be.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(

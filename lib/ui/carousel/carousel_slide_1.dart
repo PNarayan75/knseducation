@@ -84,7 +84,7 @@ class _CarouselSlide1State extends State<CarouselSlide1>
                   getSlideItemAnimationVisibility("slide_1-bg", slideItems),
               offset: slideItemOffset,
               child:
-                  Image.asset("assets/images/slide_1-bg.jpg", fit: BoxFit.fill),
+                  Image.asset("assets/images/data1.jpeg", fit: BoxFit.fill),
             ),
           ),
           Positioned(
