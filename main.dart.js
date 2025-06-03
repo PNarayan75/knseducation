@@ -85749,7 +85749,7 @@ $S:511}
 A.Jw.prototype={
 a7(){return new A.a17()}}
 A.a17.prototype={
-L(a){var s=null,r=A.aEJ(new A.aP(20,20)),q=A.b([A.ex("/assets/images/whatsapp.png",s,40,40)],t.p)
+L(a){var s=null,r=A.aEJ(new A.aP(20,20)),q=A.b([A.ex("assets/images/whatsapp.png",s,40,40)],t.p)
 if(this.d)q.push(new A.bh(B.op,A.bw("WhatsApp",s,s,s,A.ca(s,s,B.l,s,s,s,s,s,s,s,s,s,s,s,B.a6,s,s,!0,s,s,s,s,s,s,s,s),s,s),s))
 return A.ev(s,A.dD(A.pF(A.dH(q,B.ad,B.u,B.bF),s,B.W,new A.bp(B.Ix,s,s,r,s,s,B.I),B.N,s,s,s,B.dG,s,s,s),B.a3,s,new A.ayw(this),new A.ayx(this),s),B.R,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.ayy(),s,s,s,s,s,s)}}
 A.ayy.prototype={
@@ -85772,7 +85772,7 @@ $S:0}
 A.J4.prototype={
 a7(){return new A.a0_()}}
 A.a0_.prototype={
-L(a){var s=null,r=A.aEJ(new A.aP(20,20)),q=A.b([A.ex("/assets/images/youtube.png",s,40,40)],t.p)
+L(a){var s=null,r=A.aEJ(new A.aP(20,20)),q=A.b([A.ex("assets/images/youtube.png",s,40,40)],t.p)
 if(this.d)q.push(new A.bh(B.op,A.bw("Youtube",s,s,s,A.ca(s,s,B.l,s,s,s,s,s,s,s,s,s,s,s,B.a6,s,s,!0,s,s,s,s,s,s,s,s),s,s),s))
 return A.ev(s,A.dD(A.pF(A.dH(q,B.ad,B.u,B.bF),s,B.W,new A.bp(B.I8,s,s,r,s,s,B.I),B.N,s,s,s,B.dG,s,s,s),B.a3,s,new A.awJ(this),new A.awK(this),s),B.R,!1,s,s,s,s,s,s,s,s,s,s,s,s,s,new A.awL(),s,s,s,s,s,s)}}
 A.awL.prototype={
@@ -85915,7 +85915,7 @@ q===$&&A.a()
 p=t.p
 q=A.cX(A.b([B.a1P,B.lB,A.pF(i,i,B.ao,new A.bp(B.br,i,i,A.bR(2),i,i,B.I),B.cf,i,4,i,i,i,i,q*100),B.lB,B.a2_],p),B.G,B.u,B.A)
 o=j.a5b()
-n=A.cX(A.b([B.a1V,B.fp,B.a1K,B.iu,A.aJn(A.b([j.te(B.kP,0,"/assets/images/youtube.png","YouTube","https://youtube.com/yourchannel"),j.te(B.dQ,0.1,"/assets/images/facebook.png","Facebook","https://facebook.com/yourpage"),j.te(B.RA,0.2,"/assets/images/instagram.png","Instagram","https://instagram.com/yourprofile"),j.te(B.aU,0.3,"/assets/images/web.png","Website","https://yourwebsite.com"),j.te(B.f4,0.4,"/assets/images/whatsapp.png","WhatsApp","https://wa.me/917976911779")],p),15,15)],p),B.G,B.u,B.A)
+n=A.cX(A.b([B.a1V,B.fp,B.a1K,B.iu,A.aJn(A.b([j.te(B.kP,0,"assets/images/youtube.png","YouTube","https://youtube.com/yourchannel"),j.te(B.dQ,0.1,"assets/images/facebook.png","Facebook","https://facebook.com/yourpage"),j.te(B.RA,0.2,"assets/images/instagram.png","Instagram","https://instagram.com/yourprofile"),j.te(B.aU,0.3,"assets/images/web.png","Website","https://yourwebsite.com"),j.te(B.f4,0.4,"assets/images/whatsapp.png","WhatsApp","https://wa.me/917976911779")],p),15,15)],p),B.G,B.u,B.A)
 m=t.Ni
 l=j.y
 l===$&&A.a()

@@ -160,7 +160,7 @@ class _WhatsAppHoverButtonState extends State<_WhatsAppHoverButton> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                '/assets/images/whatsapp.png',
+                'assets/images/whatsapp.png',
                 height: 40,
                 width: 40,
               ),
@@ -211,7 +211,7 @@ class _TelegramHoverButtonState extends State<_TelegramHoverButton> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
-                '/assets/images/youtube.png',
+                'assets/images/youtube.png',
                 height: 40,
                 width: 40,
               ),

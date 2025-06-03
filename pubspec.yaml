@@ -38,6 +38,7 @@ flutter:
   assets:
     - assets/images/
     - assets/videos/
+    
   fonts:
     - family: Google Sans
       fonts:
