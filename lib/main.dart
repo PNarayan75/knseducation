@@ -110,6 +110,7 @@ List<Widget> blocks = [
           child: RepaintBoundary(child: Carousel())),
     ),
   ),
+  
   const BlockWrapper(ResultSlider()),
 
   const BlockWrapper(KnowYourMentor()),
